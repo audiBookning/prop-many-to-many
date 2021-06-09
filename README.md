@@ -47,3 +47,14 @@
 - Better types for the start and end dates
 
 - No tests
+
+## Disclaimer
+
+This code is not and will never be maintained. It is just some random sample code.
+
+Feel free to copy and make any change you like.
+
+##
+
+License
+ISC © 2021 AudiBookning
