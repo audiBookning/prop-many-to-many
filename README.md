@@ -36,6 +36,8 @@
 
 - Has a `RepoService` that joins all the entities repository for the sake of pure laziness.
 
+- use `createQueryBuilder` for getting the many to many props.
+
 ## TODOS
 
 - Most of the client and props routing and associated service/repo methods
