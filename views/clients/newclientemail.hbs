@@ -1,0 +1,69 @@
+<form class="w-full max-w-sm" action="/ssr/new" method="post">
+    {{!-- https://codepen.io/ryangjchandler/pen/qBOEgjg --}}
+    <input
+        class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+        type="text" placeholder="name..." :value="" aria-label="Name" name="name">
+    <input
+        class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+        type="text" placeholder="Last name..." :value="" aria-label="last Name" name="lastname">
+    <div x-data="emailList()">
+        <h1 class="text-3xl font-bold mb-8">
+            Email List
+        </h1>
+        <label for="addemail">Email:</label><br>
+        <input type="text" x-model="newEmail" id="addemail" placeholder="add email..."
+            class="mx-auto px-4 py-2 rounded shadow text-lg mr-3">
+        <button type="button" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700"
+            @click="addEmail">Add</button>
+        <template x-for="(email, index) in emails" :key="index">
+
+
+            <div class="flex items-center border-b border-teal-500 py-2">
+                <div x-text="index"></div>
+                <input
+                    class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                    type="text" placeholder="email..." :value="email.email" aria-label="Emails" :name="email.name">
+                <button
+                    class="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+                    type="button" @click="deleteEmail(index)">
+                    Cancel
+                </button>
+            </div>
+        </template>
+    </div>
+    <button
+        class="bg-blue-600 text-white flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+        type="submit">
+        Submit
+    </button>
+</form>
+
+
+<script>
+    function emailList() {
+        return {
+            newEmail: "",
+            // Get the list from hbs
+            emails: [],
+            addEmail() {
+                // validate email
+                const tempIndex = this.emails.length
+                const name = `emails[${tempIndex}][email]`;
+                this.emails.push({
+                    email: this.newEmail,
+                    main: false,
+                    name
+
+                });
+
+                this.newEmail = "";
+            },
+            deleteEmail(index) {
+                // confirm deletion?
+                this.emails = this.emails.filter((email, emailIndex) => {
+                    return index !== emailIndex
+                })
+            },
+        };
+    }
+</script>

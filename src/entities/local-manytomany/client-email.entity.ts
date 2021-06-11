@@ -3,7 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  ManyToOne
 } from 'typeorm';
 import { Client } from '../client/client.entity';
 import { Email } from '../local/email.entity';
@@ -20,15 +20,14 @@ export class ClientEmail extends BaseEntity {
   email: Email;
 
   // ************
-
-  @Column()
+  @Column({ type: "timestamp", default: () => "now()"})
   startDate: Date;
-
-  @Column()
+  
+  @Column({ type: "timestamp", default: () => "now()"})
   endDate: Date;
 
   // ************
-  @Column()
+  @Column({ default: false })
   isActive: boolean;
 
   @Column({ default: false })

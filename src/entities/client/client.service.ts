@@ -5,10 +5,15 @@ import { Phone } from '../local/phone.entity';
 import { Property } from '../local/property.entity';
 import { Website } from '../local/website.entity';
 import { Client } from './client.entity';
+import { CreateClientDto } from './dto/new-client.dto';
 
 @Injectable()
 export class ClientService {
   constructor(private repoSVC: RepoService) {}
+
+  /*
+   ****************************************************
+   */
 
   getAllClients(): Promise<Client[]> {
     return this.repoSVC.client.find();
@@ -17,6 +22,19 @@ export class ClientService {
   getClientById(id: string) {
     return this.repoSVC.client.findOne({ id });
   }
+
+  newClient(createClient: CreateClientDto) {
+    const newClient = Object.assign(new Client(), createClient);
+    try {
+      return this.repoSVC.client.save(newClient);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /*
+   ****************************************************
+   */
 
   getClientEmails(clientId: string): Promise<Email[]> {
     return this.repoSVC.emails

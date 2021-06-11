@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>App</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    {{>navbar}}
+  </header>
+  <div>
+    {{{body}}}
+  </div>
+  {{> footer }}
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/locales/de/faker.de.min.js"
+    integrity="sha512-QtII+hrwI7sPwV7tkZbzqD9tR1ag3c10GpWqCfG0zGWcBk4Ak4ztZLibCfuwcWb5rJswOB2ly6EEkOEk8VKzZQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>
