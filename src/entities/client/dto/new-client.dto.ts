@@ -13,7 +13,7 @@ export class CreateClientDto {
   emails?: CreateUserEmailDto[]
 }
 
-class CreateUserEmailDto  {
+export class CreateUserEmailDto  {
   // Email entity
   @IsEmail()
   email: string;

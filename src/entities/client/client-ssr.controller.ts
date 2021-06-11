@@ -28,7 +28,7 @@ export class ClientSSRController {
     @Res() res: Response,
     @Body() createClient: CreateClientDto,
   ) {
-    console.log('postNewClient createClient: ', createClient)
+    
     const newClient = await this.clientSvc.newClient(createClient);
     return res.render('print', { message: newClient.id });
   }

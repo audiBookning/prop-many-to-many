@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { RepoService } from '../../repos/repo.service';
+import { ClientEmail } from '../local-manytomany/client-email.entity';
 import { Email } from '../local/email.entity';
 import { Phone } from '../local/phone.entity';
 import { Property } from '../local/property.entity';
 import { Website } from '../local/website.entity';
 import { Client } from './client.entity';
-import { CreateClientDto } from './dto/new-client.dto';
+import { CreateClientDto, CreateUserEmailDto } from './dto/new-client.dto';
 
 @Injectable()
 export class ClientService {
@@ -23,12 +24,53 @@ export class ClientService {
     return this.repoSVC.client.findOne({ id });
   }
 
-  newClient(createClient: CreateClientDto) {
-    const newClient = Object.assign(new Client(), createClient);
+  async newClient(createClient: CreateClientDto) {
+    console.log('************** ClientService newClient **************')
+    console.log('createClient: ', createClient)
+    const newClient: Partial<Client> = Object.assign(new Client(), createClient);
+    
     try {
-      return this.repoSVC.client.save(newClient);
+      const savedClient = await this.repoSVC.client.save(newClient);
+      console.log('savedClient: ', savedClient);
+      
+      if(!Array.isArray(createClient.emails) || !createClient.emails.length){
+        return savedClient;
+      }
+      await this.saveEmailFromClient(savedClient, createClient.emails)
+      return savedClient;
     } catch (error) {
       throw error;
+    }
+  }
+
+  async saveEmailFromClient(client: Client, emails: CreateUserEmailDto[]){
+    console.log('************** ClientService saveEmailFromClient **************');
+    for (const email of emails) {
+      const newEmail = Object.assign(new Email(), {...email, });
+      
+      try {
+        // TODO: put in repository
+        // TODO: Check if email already exist
+        const savedEmail = await this.repoSVC.emails.save(newEmail);
+        console.log('savedEmail: ', savedEmail);
+        this.saveClientEmailEntity(client, savedEmail);
+      } catch (error) {
+        throw error
+      }     
+    }
+    return client;
+  }
+
+  // TODO: Put in repository?
+  async saveClientEmailEntity(client: Client, email: Email){
+    console.log('************** ClientService saveClientEmailEntity **************');
+    const newClientEmail = Object.assign(new ClientEmail(), {client, email })
+    try {
+      // TODO: Check if email already exist
+      const savedClientEmail = await this.repoSVC.clientEmail.save(newClientEmail)
+      console.log('savedClientEmail: ', savedClientEmail);
+    } catch (error) {
+      throw error
     }
   }
 

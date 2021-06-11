@@ -13,8 +13,15 @@ export class ClientEmail extends BaseEntity {
   // ************
   // ManyToOne
 
+ /*  @Column({type: 'uuid'})
+  clientId: string; */
+
   @ManyToOne(() => Client, (client) => client.clientEmail, { primary: true })
   client: Client;
+
+
+/*   @Column({type: 'uuid'})
+  emailId: string; */
 
   @ManyToOne(() => Email, (email) => email.clientEmail, { primary: true })
   email: Email;

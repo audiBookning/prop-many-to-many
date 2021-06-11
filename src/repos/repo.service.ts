@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClientRepository } from '../entities/client/client.repository';
+import { ClientEmailRepository } from '../entities/local-manytomany/client-email.repository';
 import { EmailRepository } from '../entities/local/email.repository';
 import { PhoneRepository } from '../entities/local/phone.repository';
 import { PropertyRepository } from '../entities/local/property.repository';
@@ -21,5 +22,10 @@ export class RepoService {
     public websites: WebsiteRepository,
     @InjectRepository(PropertyRepository)
     public property: PropertyRepository,
+    // ManyToMany
+    @InjectRepository(ClientEmailRepository)
+    public clientEmail: ClientEmailRepository,
   ) {}
 }
+
+

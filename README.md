@@ -50,6 +50,14 @@ Part of a personal [list](https://github.com/audiBookning/samples-code-ressource
 
 - No tests
 
+- better managment of errors and exceptions
+
+- add log system
+
+- Better validation
+
+- Nested saving of related entity should be simplified and should be done in one transaction
+
 ## BuyMeACoffee
 
 <a href="https://www.buymeacoffee.com/audiobookning" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
