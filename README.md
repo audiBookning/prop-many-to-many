@@ -8,6 +8,10 @@ Part of a personal [list](https://github.com/audiBookning/samples-code-ressource
 
 - [PostgreSQL](https://www.postgresql.org/)
 
+## Ssr using Faker in Another Branch
+
+- The branch is [ssr-faker](https://github.com/audiBookning/prop-many-to-many/tree/ssr-faker)
+
 ## Entities Relations
 
 - A central `Client` entity
@@ -49,6 +53,14 @@ Part of a personal [list](https://github.com/audiBookning/samples-code-ressource
 - Better types for the start and end dates
 
 - No tests
+
+- better managment of errors and exceptions
+
+- add log system
+
+- Better validation in DTO and in browser side
+
+- Nested saving of related entity should be simplified and should be done in one transaction
 
 ## BuyMeACoffee
 
