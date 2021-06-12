@@ -25,29 +25,34 @@ export class ClientService {
   }
 
   async newClient(createClient: CreateClientDto) {
-    console.log('************** ClientService newClient **************')
-    console.log('createClient: ', createClient)
-    const newClient: Partial<Client> = Object.assign(new Client(), createClient);
-    
+    console.log('************** ClientService newClient **************');
+    console.log('createClient: ', createClient);
+    const newClient: Partial<Client> = Object.assign(
+      new Client(),
+      createClient,
+    );
+
     try {
       const savedClient = await this.repoSVC.client.save(newClient);
       console.log('savedClient: ', savedClient);
-      
-      if(!Array.isArray(createClient.emails) || !createClient.emails.length){
+
+      if (!Array.isArray(createClient.emails) || !createClient.emails.length) {
         return savedClient;
       }
-      await this.saveEmailFromClient(savedClient, createClient.emails)
+      await this.saveEmailFromClient(savedClient, createClient.emails);
       return savedClient;
     } catch (error) {
       throw error;
     }
   }
 
-  async saveEmailFromClient(client: Client, emails: CreateUserEmailDto[]){
-    console.log('************** ClientService saveEmailFromClient **************');
+  async saveEmailFromClient(client: Client, emails: CreateUserEmailDto[]) {
+    console.log(
+      '************** ClientService saveEmailFromClient **************',
+    );
     for (const email of emails) {
-      const newEmail = Object.assign(new Email(), {...email, });
-      
+      const newEmail = Object.assign(new Email(), { ...email });
+
       try {
         // TODO: put in repository
         // TODO: Check if email already exist
@@ -55,22 +60,26 @@ export class ClientService {
         console.log('savedEmail: ', savedEmail);
         this.saveClientEmailEntity(client, savedEmail);
       } catch (error) {
-        throw error
-      }     
+        throw error;
+      }
     }
     return client;
   }
 
   // TODO: Put in repository?
-  async saveClientEmailEntity(client: Client, email: Email){
-    console.log('************** ClientService saveClientEmailEntity **************');
-    const newClientEmail = Object.assign(new ClientEmail(), {client, email })
+  async saveClientEmailEntity(client: Client, email: Email) {
+    console.log(
+      '************** ClientService saveClientEmailEntity **************',
+    );
+    const newClientEmail = Object.assign(new ClientEmail(), { client, email });
     try {
       // TODO: Check if email already exist
-      const savedClientEmail = await this.repoSVC.clientEmail.save(newClientEmail)
+      const savedClientEmail = await this.repoSVC.clientEmail.save(
+        newClientEmail,
+      );
       console.log('savedClientEmail: ', savedClientEmail);
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
@@ -97,24 +106,29 @@ export class ClientService {
       .getMany();
   }
 
-  // TODO: not wotking yet
   getClientEmailsDetails(clientId: string): Promise<Email[]> {
-    console.log('************** ClientService getClientEmailsDetails **************');
+    console.log(
+      '************** ClientService getClientEmailsDetails **************',
+    );
     return this.repoSVC.emails
       .createQueryBuilder('email')
-      .innerJoinAndSelect('client_email',
-      'details', "details.clientId = :clientId", { clientId})
-      //.where("details.clientId = :clientId", { clientId})
+      .leftJoinAndMapMany(
+        'email.details',
+        'client_email',
+        'details',
+        'details.emailId = email.id',
+      )
+      .where('details.clientId = :clientId', { clientId })
       .getMany();
   }
 
   getClientEmailsEntity(clientId: string): Promise<ClientEmail[]> {
     return this.repoSVC.clientEmail
       .createQueryBuilder('client_email')
-      .where('client_email.clientId = :clientId',{
+      .where('client_email.clientId = :clientId', {
         clientId,
       })
-      .leftJoinAndSelect("client_email.email", "email")     
+      .leftJoinAndSelect('client_email.email', 'email')
       .getMany();
   }
 
