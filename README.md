@@ -8,6 +8,10 @@ Part of a personal [list](https://github.com/audiBookning/samples-code-ressource
 
 - [PostgreSQL](https://www.postgresql.org/)
 
+## Ssr using Faker in Another Branch
+
+- The branch is [ssr-faker](https://github.com/audiBookning/prop-many-to-many/tree/ssr-faker)
+
 ## Entities Relations
 
 - A central `Client` entity
