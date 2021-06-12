@@ -1,20 +1,25 @@
-<form class="w-full max-w-sm" action="/ssr/new" method="post">
+<form x-data="emailList()" class="w-full max-w-sm" action="/ssr/new" method="post">
     {{!-- https://codepen.io/ryangjchandler/pen/qBOEgjg --}}
     <input
         class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-        type="text" placeholder="name..." :value="" aria-label="Name" name="name">
+        type="text" placeholder="name..." :value="firstname" aria-label="Name" name="name">
     <input
         class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-        type="text" placeholder="Last name..." :value="" aria-label="last Name" name="lastname">
-    <div x-data="emailList()">
+        type="text" placeholder="Last name..." :value="lastname" aria-label="last Name" name="lastname">
+    <button type="button" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700"
+        @click="fakeNames()">Fake</button>
+    <div class="w-full max-w-lg">
         <h1 class="text-3xl font-bold mb-8">
             Email List
         </h1>
         <label for="addemail">Email:</label><br>
         <input type="text" x-model="newEmail" id="addemail" placeholder="add email..."
-            class="mx-auto px-4 py-2 rounded shadow text-lg mr-3">
+            class="mx-auto px-8 py-2 rounded shadow text-lg mr-5  w-4/6" >
         <button type="button" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700"
             @click="addEmail">Add</button>
+        <button type="button" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700"
+        @click="fakeEmail()">Fake</button>
+
         <template x-for="(email, index) in emails" :key="index">
 
 
@@ -41,10 +46,14 @@
 
 <script>
     function emailList() {
+        faker.locale = "en";
         return {
             newEmail: "",
             // Get the list from hbs
             emails: [],
+            firstname: '',
+            lastname: '',
+            tempEmail: '',
             addEmail() {
                 // validate email
                 const tempIndex = this.emails.length
@@ -64,6 +73,15 @@
                     return index !== emailIndex
                 })
             },
+            fakeNames(){
+                this.firstname = faker.name.firstName()
+                this.lastname = faker.name.lastName()
+            },
+            fakeEmail(){
+                console.log('faker: ', faker)
+                this.newEmail = faker.internet.email()
+                console.log('this.newEmail: ', this.newEmail)
+            }
         };
     }
 </script>

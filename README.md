@@ -54,7 +54,7 @@ Part of a personal [list](https://github.com/audiBookning/samples-code-ressource
 
 - add log system
 
-- Better validation
+- Better validation in DTO and in browser side
 
 - Nested saving of related entity should be simplified and should be done in one transaction
 

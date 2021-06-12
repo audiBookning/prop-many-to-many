@@ -97,6 +97,27 @@ export class ClientService {
       .getMany();
   }
 
+  // TODO: not wotking yet
+  getClientEmailsDetails(clientId: string): Promise<Email[]> {
+    console.log('************** ClientService getClientEmailsDetails **************');
+    return this.repoSVC.emails
+      .createQueryBuilder('email')
+      .innerJoinAndSelect('client_email',
+      'details', "details.clientId = :clientId", { clientId})
+      //.where("details.clientId = :clientId", { clientId})
+      .getMany();
+  }
+
+  getClientEmailsEntity(clientId: string): Promise<ClientEmail[]> {
+    return this.repoSVC.clientEmail
+      .createQueryBuilder('client_email')
+      .where('client_email.clientId = :clientId',{
+        clientId,
+      })
+      .leftJoinAndSelect("client_email.email", "email")     
+      .getMany();
+  }
+
   getClientPhones(clientId: string): Promise<Phone[]> {
     return this.repoSVC.phone
       .createQueryBuilder('phone')

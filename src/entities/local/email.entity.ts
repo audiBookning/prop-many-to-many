@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { ClientEmail } from '../local-manytomany/client-email.entity';
 
@@ -12,6 +12,8 @@ import { ClientEmail } from '../local-manytomany/client-email.entity';
 export class Email extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  details: ClientEmail;
 
   // ************
   // OneToMany

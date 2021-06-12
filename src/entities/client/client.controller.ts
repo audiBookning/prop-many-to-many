@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { ClientEmail } from '../local-manytomany/client-email.entity';
 import { Email } from '../local/email.entity';
 import { Phone } from '../local/phone.entity';
 import { Property } from '../local/property.entity';
@@ -22,6 +23,17 @@ export class ClientController {
   @Get(':id/emails')
   getClientEmails(@Param() { id }: { id: string }): Promise<Email[]> {
     return this.clientSvc.getClientEmails(id);
+  }
+
+  @Get(':id/emailsdetails')
+  getClientEmailsDtails(@Param() { id }: { id: string }): Promise<Email[]> {
+    return this.clientSvc.getClientEmailsDetails(id);
+  }
+
+  // INFO: get clientEmail with email field details
+  @Get(':id/clientemails')
+  getClientEmailsEntity(@Param() { id }: { id: string }): Promise<ClientEmail[]> {
+    return this.clientSvc.getClientEmailsEntity(id);
   }
 
   @Get(':id/phones')
