@@ -21,21 +21,21 @@ export class ClientController {
 
   @Get(':id/emails')
   getClientEmails(@Param() { id }: { id: string }): Promise<Email[]> {
-    return this.clientSvc.getClientEmails(id);
+    return this.clientSvc.getClientEmailsDetails(id);
   }
 
   @Get(':id/phones')
   getClientPhones(@Param() { id }: { id: string }): Promise<Phone[]> {
-    return this.clientSvc.getClientPhones(id);
+    return this.clientSvc.getClientPhonesDetails(id);
   }
 
   @Get(':id/properties')
   getClientProperties(@Param() { id }: { id: string }): Promise<Property[]> {
-    return this.clientSvc.getClientProperties(id);
+    return this.clientSvc.getClientPropertiesDetails(id);
   }
 
   @Get(':id/websites')
   getClientWebsites(@Param() { id }: { id: string }): Promise<Website[]> {
-    return this.clientSvc.getClientWebsites(id);
+    return this.clientSvc.getClientWebsitesDetails(id);
   }
 }

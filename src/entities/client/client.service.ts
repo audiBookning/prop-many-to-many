@@ -18,79 +18,67 @@ export class ClientService {
     return this.repoSVC.client.findOne({ id });
   }
 
-  getClientEmails(clientId: string): Promise<Email[]> {
+  getClientEmailsDetails(clientId: string): Promise<Email[]> {
+    console.log(
+      '************** ClientService getClientEmailsDetails **************',
+    );
     return this.repoSVC.emails
       .createQueryBuilder('email')
-      .innerJoin(
+      .leftJoinAndMapMany(
+        'email.details',
         'client_email',
-        'client_email',
-        'client_email.emailId  = email.id',
+        'details',
+        'details.emailId = email.id',
       )
-      .innerJoin(
-        'client',
-        'client',
-        'client.id  = :clientId AND client_email.clientId = client.id',
-        {
-          clientId,
-        },
-      )
+      .where('details.clientId = :clientId', { clientId })
       .getMany();
   }
 
-  getClientPhones(clientId: string): Promise<Phone[]> {
+  getClientPhonesDetails(clientId: string): Promise<Phone[]> {
+    console.log(
+      '************** ClientService getClientPhonesDetails **************',
+    );
     return this.repoSVC.phone
       .createQueryBuilder('phone')
-      .innerJoin(
+      .leftJoinAndMapMany(
+        'phone.details',
         'client_phone',
-        'client_phone',
-        'client_phone.phoneId  = phone.id',
+        'details',
+        'details.phoneId = phone.id',
       )
-      .innerJoin(
-        'client',
-        'client',
-        'client.id  = :clientId AND client_phone.clientId = client.id',
-        {
-          clientId,
-        },
-      )
+      .where('details.clientId = :clientId', { clientId })
       .getMany();
   }
 
-  getClientProperties(clientId: string): Promise<Property[]> {
+  getClientPropertiesDetails(clientId: string): Promise<Property[]> {
+    console.log(
+      '************** ClientService getClientPropertiesDetails **************',
+    );
     return this.repoSVC.property
       .createQueryBuilder('property')
-      .innerJoin(
+      .leftJoinAndMapMany(
+        'property.details',
         'client_property',
-        'client_property',
-        'client_property.propertyId  = property.id',
+        'details',
+        'details.propertyId = property.id',
       )
-      .innerJoin(
-        'client',
-        'client',
-        'client.id  = :clientId AND client_property.clientId = client.id',
-        {
-          clientId,
-        },
-      )
+      .where('details.clientId = :clientId', { clientId })
       .getMany();
   }
 
-  getClientWebsites(clientId: string): Promise<Website[]> {
+  getClientWebsitesDetails(clientId: string): Promise<Website[]> {
+    console.log(
+      '************** ClientService getClientWebsitesDetails **************',
+    );
     return this.repoSVC.websites
       .createQueryBuilder('website')
-      .innerJoin(
+      .leftJoinAndMapMany(
+        'website.details',
         'client_website',
-        'client_website',
-        'client_website.websiteId  = website.id',
+        'details',
+        'details.websiteId = website.id',
       )
-      .innerJoin(
-        'client',
-        'client',
-        'client.id  = :clientId AND client_website.clientId = client.id',
-        {
-          clientId,
-        },
-      )
+      .where('details.clientId = :clientId', { clientId })
       .getMany();
   }
 }
