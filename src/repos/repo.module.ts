@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientRepository } from '../entities/client/client.repository';
 import { ClientEmailRepository } from '../entities/local-manytomany/client-email.repository';
+import { ClientPhoneRepository } from '../entities/local-manytomany/client-phone.repository';
 import { EmailRepository } from '../entities/local/email.repository';
 import { PhoneRepository } from '../entities/local/phone.repository';
 import { PropertyRepository } from '../entities/local/property.repository';
@@ -21,7 +22,8 @@ import { RepoService } from './repo.service';
       WebsiteRepository,
       PropertyRepository,
       // manyToMany
-      ClientEmailRepository
+      ClientEmailRepository,
+      ClientPhoneRepository,
     ]),
   ],
   providers: [RepoService],

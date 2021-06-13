@@ -38,11 +38,11 @@ export class Client extends BaseEntity {
   @OneToMany(() => ClientPhone, (clientPhone) => clientPhone.client)
   clientPhone: ClientPhone[];
 
-  @OneToMany(() => ClientProperty, (clientProperty) => clientProperty.client)
-  clientProperty: ClientProperty[];
-
   @OneToMany(() => ClientWebsite, (clientWebsite) => clientWebsite.client)
   clientWebsite: ClientWebsite[];
+
+  @OneToMany(() => ClientProperty, (clientProperty) => clientProperty.client)
+  clientProperty: ClientProperty[];
 
   // ****************************
 

@@ -32,6 +32,9 @@ export class ClientPhone extends BaseEntity {
   @Column({ default: false })
   iSMain: boolean;
 
+  @Column({ default: false })
+  isActive: boolean;
+
   // ************
 
   @Column({ nullable: true })

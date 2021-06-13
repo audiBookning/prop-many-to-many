@@ -33,6 +33,9 @@ export class ClientProperty extends BaseEntity {
   @Column({ default: false })
   isMain: boolean;
 
+  @Column({ default: false })
+  isActive: boolean;
+
   // ************
 
   @Column({ nullable: true })

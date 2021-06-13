@@ -6,7 +6,11 @@ import { Phone } from '../local/phone.entity';
 import { Property } from '../local/property.entity';
 import { Website } from '../local/website.entity';
 import { Client } from './client.entity';
-import { CreateClientDto, CreateUserEmailDto } from './dto/new-client.dto';
+import {
+  CreateClientDto,
+  CreateUserEmailDto,
+  CreateUserPhoneDto,
+} from './dto/new-client.dto';
 
 @Injectable()
 export class ClientService {
@@ -36,51 +40,56 @@ export class ClientService {
       const savedClient = await this.repoSVC.client.save(newClient);
       console.log('savedClient: ', savedClient);
 
-      if (!Array.isArray(createClient.emails) || !createClient.emails.length) {
-        return savedClient;
-      }
-      await this.saveEmailFromClient(savedClient, createClient.emails);
+      await this.checkAndSaveClientLocals(createClient, savedClient);
       return savedClient;
     } catch (error) {
       throw error;
     }
   }
 
+  async checkAndSaveClientLocals(
+    createClient: CreateClientDto,
+    savedClient: Client,
+  ) {
+    // INFO: Check Emails
+    if (!Array.isArray(createClient.emails) || !createClient.emails.length) {
+      return false;
+    }
+    await this.saveEmailFromClient(savedClient, createClient.emails);
+
+    // INFO: Check Phones
+    if (!Array.isArray(createClient.phones) || !createClient.phones.length) {
+      return false;
+    }
+    await this.savePhonesFromClient(savedClient, createClient.phones);
+  }
+
+  // TODO: Refactor all these similar methods to a more general one
   async saveEmailFromClient(client: Client, emails: CreateUserEmailDto[]) {
     console.log(
       '************** ClientService saveEmailFromClient **************',
     );
-    for (const email of emails) {
-      const newEmail = Object.assign(new Email(), { ...email });
 
-      try {
-        // TODO: put in repository
-        // TODO: Check if email already exist
-        const savedEmail = await this.repoSVC.emails.save(newEmail);
-        console.log('savedEmail: ', savedEmail);
-        this.saveClientEmailEntity(client, savedEmail);
-      } catch (error) {
-        throw error;
-      }
+    for (const email of emails) {
+      // TODO: Check if email already exist
+      const savedEmail = await this.repoSVC.emails.saveWithCheck(email);
+      await this.repoSVC.clientEmail.saveFromClient(client, savedEmail);
     }
     return client;
   }
 
-  // TODO: Put in repository?
-  async saveClientEmailEntity(client: Client, email: Email) {
+  async savePhonesFromClient(client: Client, phones: CreateUserPhoneDto[]) {
     console.log(
-      '************** ClientService saveClientEmailEntity **************',
+      '************** ClientService savePhonesFromClient **************',
     );
-    const newClientEmail = Object.assign(new ClientEmail(), { client, email });
-    try {
-      // TODO: Check if email already exist
-      const savedClientEmail = await this.repoSVC.clientEmail.save(
-        newClientEmail,
-      );
-      console.log('savedClientEmail: ', savedClientEmail);
-    } catch (error) {
-      throw error;
+
+    for (const phone of phones) {
+      // TODO: Check if phone already exist
+      const savedPhone = await this.repoSVC.phone.saveWithCheck(phone);
+
+      await this.repoSVC.clientPhone.saveFromClient(client, savedPhone);
     }
+    return client;
   }
 
   /*
